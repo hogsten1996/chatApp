@@ -20,7 +20,7 @@ async function getPurchase(id){
 
 async function createPurchase(body){
     try{
-        const {rows: [purchase]} = await  client.query('INSERT INTO purchases (date, amount, description) VALUES ($1, $2, $3) RETURNING *', [body.date, body.amount, body.description]);
+        const {rows: [purchase]} = await  client.query('INSERT INTO purchases ( date, amount, description) VALUES ($1, $2, $3) RETURNING *', [body.date, body.amount, body.description]);
         return purchase;
     }catch(err){
         throw err;

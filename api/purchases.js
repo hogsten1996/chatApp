@@ -22,6 +22,7 @@ router.get('/:id', async (req,res,next)=>{
 })
 
 router.post('/', async (req,res,next)=>{
+    console.log(req.body)
     try {
         const purchase = await createPurchase(req.body)
         res.send(purchase)
