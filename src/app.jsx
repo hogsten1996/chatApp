@@ -1,35 +1,49 @@
-import {useAddPurchaseMutation, useGetPurchasesQuery} from "./reducers/api";
-import {useState} from "react";
+import {useAddPurchaseMutation, useDeletePurchaseMutation, useGetPurchasesQuery} from "./reducers/api";
+import {useEffect, useState} from "react";
+
 
 function App() {
-    const {data, isLoading} = useGetPurchasesQuery();
-    const [addPurchase] = useAddPurchaseMutation();
+
+    const {data, isLoading}=useGetPurchasesQuery();
+    const [deletePurchase]=useDeletePurchaseMutation()
+    const [addPurchase]=useAddPurchaseMutation();
+    const [check,setCheck]=useState(false);
     const [form, setForm] = useState({
-        date: "06-01-2023",
-        description: "test description",
-        amount: 2000
+        date: new Date().toISOString(),
+        description: "lukes fun lorcana money",
+        amount: 4000
     })
 
-    const onSubmit = async () => {
-        await addPurchase(form).unwrap().then(() => {
-            console.log("submitted")
-        }).catch(() =>
+    const onSubmit = async ()=>{
+        await addPurchase(form).unwrap().then(()=>{
+            console.log("added")
+            setCheck(!check)
+        }).catch(()=>{
             console.log("error")
-        );
-    }
-
-    const changeValue = key => event => {
-        setForm({
-            ...form,
-            [key]: event.target.value
         })
     }
+
+    const onDelete = async (id)=> {
+        await deletePurchase(id).unwrap().then(()=>{
+            console.log("deleted")
+            setCheck(!check)
+        }).catch(()=>{
+            console.log("error")
+        })
+    }
+
+    useEffect(()=>{
+        console.log("modified")
+    },[check])
 
     return (
         <>
             <button onClick={onSubmit}>Add Dummy Post</button>
             {isLoading ? <h1>Loading....</h1> : data.map(i =>
-                <h1 key={i.id}>{i.description}</h1>
+                <div>
+                    <h1 key={i.id}>{i.description}</h1>
+                    <button onClick={()=>onDelete(i.id)}>Delete</button>
+                </div>
             )}
         </>
     );

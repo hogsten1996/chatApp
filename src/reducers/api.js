@@ -6,23 +6,36 @@ export const storeApi = createApi({
     reducerPath: 'bigfredApi',
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8081/api/'}),
     endpoints: (builder) => ({
-        getPurchaseById: builder.query({
-            query: (id) => `purchases/${id}`,
-            providesTags:['purchases']
-        }),
         getPurchases : builder.query({
-            query:()=> 'purchases',
-            providesTags:['purchases']
+            query: ()=> 'purchases'
+        }),
+        getPurchaseById : builder.query({
+            query: (id)=> 'purchases/'+id
+        }),
+        deletePurchase: builder.mutation({
+            query: (id)=>({
+                url:'/purchases/'+id,
+                method:"DELETE"
+            })
         }),
         addPurchase: builder.mutation({
             query: (body)=>({
                 url:'/purchases',
-                method :"POST",
-                body: body
-            }),
-            invalidatesTags: ['purchases'],
+                method:"POST",
+                body:body
+            })
+        }),
+        editPurchase: builder.mutation({
+            query(data){
+                const {id, ...body}=data;
+                return {
+                    url: '/purchases/'+id,
+                    method:"PUT",
+                    body
+                }
+            }
         })
     }),
 })
 
-export const {useGetPurchaseByIdQuery, useGetPurchasesQuery, useAddPurchaseMutation,} = storeApi
+export const { useEditPurchaseMutation, useAddPurchaseMutation, useGetPurchasesQuery, useGetPurchaseByIdQuery, useDeletePurchaseMutation} = storeApi
