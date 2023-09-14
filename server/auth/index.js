@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {PrismaClient} = require("@prisma/client");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 
@@ -13,7 +13,9 @@ router.post("/register", async (req, res, next) => {
     // Create a token with the user id
     const token = jwt.sign({ id: user.id }, process.env.JWT);
 
-    res.status(201).send({ token });
+    res
+      .status(201)
+      .send({ token, user: { userId: user.id, username: user.username } });
   } catch (error) {
     next(error);
   }
@@ -33,7 +35,7 @@ router.post("/login", async (req, res, next) => {
     // Create a token with the user id
     const token = jwt.sign({ id: user.id }, process.env.JWT);
 
-    res.send({ token });
+    res.send({ token, user: { userId: user.id, username: user.username } });
   } catch (error) {
     next(error);
   }
@@ -41,7 +43,7 @@ router.post("/login", async (req, res, next) => {
 
 // Get the currently logged in user
 router.get("/me", async (req, res, next) => {
-  console.log(req.user)
+  console.log(req.user);
   if (!req.user) {
     return res.send({});
   }
