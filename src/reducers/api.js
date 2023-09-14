@@ -4,42 +4,42 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 export const storeApi = createApi({
     tagTypes:['purchases'],
     reducerPath: 'bigfredApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8081/api/'}),
+    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8081/'}),
     endpoints: (builder) => ({
         getPurchases : builder.query({
-            query: ()=> 'purchases'
+            query: ()=> 'api/purchases'
         }),
         getProducts: builder.query({
-            query: ()=>'products'
+            query: ()=>'api/products'
         }),
         getPurchaseById : builder.query({
-            query: (id)=> 'purchases/'+id
+            query: (id)=> 'api/purchases/'+id
         }),
         getProductById :builder.query({
-            query: (id)=> 'products/'+id
+            query: (id)=> 'api/products/'+id
         }),
         deletePurchase: builder.mutation({
             query: (id)=>({
-                url:'/purchases/'+id,
+                url:'api/purchases/'+id,
                 method:"DELETE"
             })
         }),
         deleteProduct: builder.mutation({
             query: (id)=>({
-                url:'/products/'+id,
+                url:'api/products/'+id,
                 method: "DELETE"
             })
         }),
         addPurchase: builder.mutation({
             query: (body)=>({
-                url:'/purchases',
+                url:'api/purchases',
                 method:"POST",
                 body:body
             })
         }),
         addProduct: builder.mutation({
             query: (body)=>({
-                url:'/products',
+                url:'api/products',
                 method:"POST",
                 body:body
             })
@@ -48,7 +48,7 @@ export const storeApi = createApi({
             query(data){
                 const {id, ...body}=data;
                 return {
-                    url: '/purchases/'+id,
+                    url: 'api/purchases/'+id,
                     method:"PUT",
                     body
                 }
@@ -58,7 +58,7 @@ export const storeApi = createApi({
             query(data){
                 const {id, ...body}=data;
                 return {
-                    url: '/products/'+id,
+                    url: 'api/products/'+id,
                     method:"PUT",
                     body
                 }

@@ -1,46 +1,39 @@
-import {useGetProductsQuery, useDeleteProductMutation, useAddProductMutation} from "./reducers/api";
+import { Route, Routes } from "react-router-dom";
+import AuthForm from "./components/auth/AuthForm";
+import { useMeQuery } from "./reducers/auth";
+import "./App.css";
+import Products from "./pages/Products";
+import SinglePurchase from "./pages/SinglePurchase";
+import SingleProduct from "./pages/SIngleProduct";
+import React from "react";
+// import jwt from "jsonwebtoken";
 
+/**
+ * App is the root component of our application.
+ * It will render either a login form or the dashboard
+ * depending on whether the user is logged in or not.
+ */
 function App() {
-
-    const {data, isLoading}= useGetProductsQuery();
-    const [deleteProduct] = useDeleteProductMutation();
-    const [addProduct]= useAddProductMutation();
-
-    const onDelete = async (id)=>{
-        await  deleteProduct(id).then(()=>{
-            console.log("delete")
-            location.reload()
-        }).catch(()=>{
-            console.log("error")
-        })
-    }
-
-    const onSubmit = async()=>{
-        await addProduct({
-            name:"socks",
-            price: 25
-        }).then(()=>{
-            console.log("added")
-            location.reload()
-        }).catch(()=>{
-            console.log("error")
-        })
-    }
-
-    return (
-        <>
-            <button onClick={onSubmit}>Add Product</button>
-            {isLoading? <h1>Loading...</h1>: data.length===0? <h1>No Products Listed</h1>:data.map((i)=>
-                <div key={i.id}>
-                    <h1 >{i.name}</h1>
-                    <h3>$ {i.price}</h3>
-                    <button onClick={()=>onDelete(i.id)}>Delete</button>
-                </div>
-
-            )}
-
-        </>
+    const guestRouter = (
+        <Routes>
+            <Route path="/*" element={<AuthForm />} />
+        </Routes>
     );
+    const userRouter = (
+        <Routes>
+            <Route index element={<Products/>}/>
+            <Route path={"/purchase/:id"} element={<SinglePurchase/>}/>
+            <Route path={"/product/:id"} element={<SingleProduct/>}/>
+        </Routes>
+    );
+
+    // const { data: me } = useMeQuery();
+    // console.log(me);
+    const token = sessionStorage.getItem("token");
+    // const user = jwt.verify(token, process.env.JWT)
+    // console.log(user);
+    // const loggedIn = !!me?.id;
+    return token ? userRouter : guestRouter;
 }
 
 export default App;

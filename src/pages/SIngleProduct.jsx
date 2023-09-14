@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import { useEditProductMutation, useGetProductByIdQuery} from "./reducers/api";
+import { useEditProductMutation, useGetProductByIdQuery} from "../reducers/api";
 import {useEffect, useState} from "react";
 
 function SingleProduct() {

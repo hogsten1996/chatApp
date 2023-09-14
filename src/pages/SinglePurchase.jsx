@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useEditPurchaseMutation, useGetPurchaseByIdQuery} from "./reducers/api";
+import {useEditPurchaseMutation, useGetPurchaseByIdQuery} from "../reducers/api";
 import {useEffect, useState} from "react";
 
 
