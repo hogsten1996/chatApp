@@ -40,15 +40,13 @@ const authApi = storeApi.injectEndpoints({
  * Stores the payload's token in both state and session storage.
  */
 function storeToken(state, { payload }) {
-  state.token = payload.token;
-  state.user = payload.user;
+  state.credentials = { token: payload.token, user: { ...payload.user } };
   window.sessionStorage.setItem(
     CREDENTIALS,
     JSON.stringify({
       token: payload.token,
       user: { ...payload.user },
     })
-    // payload.token
   );
 }
 
@@ -58,15 +56,17 @@ function storeToken(state, { payload }) {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    token: JSON.parse(window.sessionStorage.getItem(CREDENTIALS)),
+    credentials: JSON.parse(window.sessionStorage.getItem(CREDENTIALS)) || {
+      token: "",
+      user: { userId: null },
+    },
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addMatcher(storeApi.endpoints.login.matchFulfilled, storeToken);
     builder.addMatcher(storeApi.endpoints.register.matchFulfilled, storeToken);
     builder.addMatcher(storeApi.endpoints.logout.matchFulfilled, (state) => {
-      state.token = null;
-      state.user = null;
+      state.credentials = { token: "", userId: null };
       window.sessionStorage.removeItem(CREDENTIALS);
     });
   },
