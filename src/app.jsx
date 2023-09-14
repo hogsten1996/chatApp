@@ -1,50 +1,44 @@
-import {useAddPurchaseMutation, useDeletePurchaseMutation, useGetPurchasesQuery} from "./reducers/api";
-import {useEffect, useState} from "react";
-
+import {useGetProductsQuery, useDeleteProductMutation, useAddProductMutation} from "./reducers/api";
 
 function App() {
 
-    const {data, isLoading}=useGetPurchasesQuery();
-    const [deletePurchase]=useDeletePurchaseMutation()
-    const [addPurchase]=useAddPurchaseMutation();
-    const [check,setCheck]=useState(false);
-    const [form, setForm] = useState({
-        date: new Date().toISOString(),
-        description: "lukes fun lorcana money",
-        amount: 4000
-    })
+    const {data, isLoading}= useGetProductsQuery();
+    const [deleteProduct] = useDeleteProductMutation();
+    const [addProduct]= useAddProductMutation();
 
-    const onSubmit = async ()=>{
-        await addPurchase(form).unwrap().then(()=>{
+    const onDelete = async (id)=>{
+        await  deleteProduct(id).then(()=>{
+            console.log("delete")
+            location.reload()
+        }).catch(()=>{
+            console.log("error")
+        })
+    }
+
+    const onSubmit = async()=>{
+        await addProduct({
+            name:"socks",
+            price: 25
+        }).then(()=>{
             console.log("added")
-            setCheck(!check)
+            location.reload()
         }).catch(()=>{
             console.log("error")
         })
     }
-
-    const onDelete = async (id)=> {
-        await deletePurchase(id).unwrap().then(()=>{
-            console.log("deleted")
-            setCheck(!check)
-        }).catch(()=>{
-            console.log("error")
-        })
-    }
-
-    useEffect(()=>{
-        console.log("modified")
-    },[check])
 
     return (
         <>
-            <button onClick={onSubmit}>Add Dummy Post</button>
-            {isLoading ? <h1>Loading....</h1> : data.map(i =>
-                <div>
-                    <h1 key={i.id}>{i.description}</h1>
+            <button onClick={onSubmit}>Add Product</button>
+            {isLoading? <h1>Loading...</h1>: data.length===0? <h1>No Products Listed</h1>:data.map((i)=>
+                <div key={i.id}>
+                    <h1 >{i.name}</h1>
+                    <h3>$ {i.price}</h3>
                     <button onClick={()=>onDelete(i.id)}>Delete</button>
                 </div>
+
             )}
+
         </>
     );
 }

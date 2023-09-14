@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model products {
+  id    Int      @id @default(autoincrement())
+  name  String?
+  price Decimal? @db.Decimal
+}
+
 model purchases {
   id          Int      @id @default(autoincrement())
   date        DateTime @db.Date

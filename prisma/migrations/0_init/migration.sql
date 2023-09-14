@@ -1,4 +1,13 @@
 -- CreateTable
+CREATE TABLE "products" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT,
+    "price" DECIMAL,
+
+    CONSTRAINT "products_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "purchases" (
     "id" SERIAL NOT NULL,
     "date" DATE NOT NULL,

@@ -7,6 +7,7 @@ import {storeApi} from "./reducers/api.js";
 import "./app.css";
 import Nav from "./Nav";
 import SinglePurchase from "./SinglePurchase";
+import SingleProduct from "./SIngleProduct";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Routes>
                     <Route index element={<App/>}/>
                     <Route path={"/purchase/:id"} element={<SinglePurchase/>}/>
+                    <Route path={"/product/:id"} element={<SingleProduct/>}/>
                 </Routes>
             </ApiProvider>
         </BrowserRouter>

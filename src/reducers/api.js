@@ -9,8 +9,14 @@ export const storeApi = createApi({
         getPurchases : builder.query({
             query: ()=> 'purchases'
         }),
+        getProducts: builder.query({
+            query: ()=>'products'
+        }),
         getPurchaseById : builder.query({
             query: (id)=> 'purchases/'+id
+        }),
+        getProductById :builder.query({
+            query: (id)=> 'products/'+id
         }),
         deletePurchase: builder.mutation({
             query: (id)=>({
@@ -18,9 +24,22 @@ export const storeApi = createApi({
                 method:"DELETE"
             })
         }),
+        deleteProduct: builder.mutation({
+            query: (id)=>({
+                url:'/products/'+id,
+                method: "DELETE"
+            })
+        }),
         addPurchase: builder.mutation({
             query: (body)=>({
                 url:'/purchases',
+                method:"POST",
+                body:body
+            })
+        }),
+        addProduct: builder.mutation({
+            query: (body)=>({
+                url:'/products',
                 method:"POST",
                 body:body
             })
@@ -34,8 +53,19 @@ export const storeApi = createApi({
                     body
                 }
             }
+        }),
+        editProduct : builder.mutation({
+            query(data){
+                const {id, ...body}=data;
+                return {
+                    url: '/products/'+id,
+                    method:"PUT",
+                    body
+                }
+            }
         })
+
     }),
 })
 
-export const { useEditPurchaseMutation, useAddPurchaseMutation, useGetPurchasesQuery, useGetPurchaseByIdQuery, useDeletePurchaseMutation} = storeApi
+export const { useEditProductMutation, useAddProductMutation, useDeleteProductMutation, useGetProductsQuery, useGetProductByIdQuery, useEditPurchaseMutation, useAddPurchaseMutation, useGetPurchasesQuery, useGetPurchaseByIdQuery, useDeletePurchaseMutation} = storeApi
