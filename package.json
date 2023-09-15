@@ -2,6 +2,7 @@
   "name": "boilerplate",
   "private": true,
   "version": "0.0.0",
+  "type": "commonjs",
   "scripts": {
     "start": "clear && concurrently 'vite' 'node server/index.js'",
     "dev": "clear && concurrently 'vite' 'nodemon server/index.js'",
@@ -23,7 +24,8 @@
     "react-redux": "^8.1.2",
     "react-router-dom": "^6.15.0",
     "redux": "^4.2.1",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vite-express": "^0.10.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",

@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const ViteExpress = require("vite-express")
 const path = require("path");
 const jwt = require("jsonwebtoken");
 
@@ -33,13 +34,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("*/", (_req, res) => {
-  res.sendFile(path.join(__dirname, "../public", "index.html"));
-});
-
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log("On port" + PORT);
 });
+
+ViteExpress.bind(app, server)
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
