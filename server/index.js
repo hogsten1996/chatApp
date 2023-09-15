@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const jwt = require("jsonwebtoken");
+
 const PORT = 8081;
 
 const { PrismaClient } = require("@prisma/client");
@@ -15,7 +16,9 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Check requests for a token and attach the decoded id to the request
+app.use("/api", require("./api"));
+app.use("/auth", require("./auth"))
+
 app.use((req, res, next) => {
   console.log("req headers", req.headers);
   const auth = req.headers.authorization;
@@ -29,9 +32,6 @@ app.use((req, res, next) => {
 
   next();
 });
-
-app.use("/auth", require("./auth"));
-app.use("/api", require("./api"));
 
 app.get("*/", (_req, res) => {
   res.sendFile(path.join(__dirname, "../public", "index.html"));

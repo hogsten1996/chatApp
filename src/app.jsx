@@ -1,21 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 import AuthForm from "./components/auth/AuthForm";
-import { useMeQuery } from "./reducers/auth";
 import "./App.css";
 import Products from "./pages/Products";
 import SinglePurchase from "./pages/SinglePurchase";
 import SingleProduct from "./pages/SIngleProduct";
 import React from "react";
-import { useSelector } from "react-redux";
-
-/**
- * App is the root component of our application.
- * It will render either a login form or the dashboard
- * depending on whether the user is logged in or not.
- */
+import {useSelector} from "react-redux";
+import {useMeQuery} from "./reducers/auth";
 
 function App() {
-  const me = useSelector((state) => state.auth.credentials.user);
+
+    const me = useSelector((state)=>state.auth.credentials.user);
+
+    console.log(me)
 
   const guestRouter = (
     <Routes>
@@ -30,8 +27,8 @@ function App() {
     </Routes>
   );
 
-  const loggedIn = me;
-  return loggedIn ? userRouter : guestRouter;
+  const loggedIn=me.userId;
+  return loggedIn!==null ? userRouter : guestRouter;
 }
 
 export default App;
