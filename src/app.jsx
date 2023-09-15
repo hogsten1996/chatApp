@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
  */
 
 function App() {
-  const me = useSelector((state) => state.auth.user);
+  const me = useSelector((state) => state.auth.credentials.user);
 
   const guestRouter = (
     <Routes>
@@ -30,9 +30,7 @@ function App() {
     </Routes>
   );
 
-  // const { data: me } = useMeQuery();
-
-  const loggedIn = !!me?.userId;
+  const loggedIn = me;
   return loggedIn ? userRouter : guestRouter;
 }
 

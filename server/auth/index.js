@@ -2,12 +2,17 @@ const router = require("express").Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 // Register a new instructor account
 router.post("/register", async (req, res, next) => {
+  const SALT_ROUNDS = 5;
+
+  const hashedPassword = await bcrypt.hash(req.body.password, SALT_ROUNDS);
+
   try {
     const user = await prisma.user.create({
-      data: { username: req.body.username, password: req.body.password },
+      data: { username: req.body.username, password: hashedPassword },
     });
 
     // Create a token with the user id
@@ -25,10 +30,15 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try {
     const user = await prisma.user.findUnique({
-      where: { username: req.body.username, password: req.body.password },
+      where: { username: req.body.username },
     });
-
     if (!user) {
+      return res.status(401).send("Invalid login credentials.");
+    }
+
+    const isValid = bcrypt.compare(req.body.password, user.password);
+
+    if (!isValid) {
       return res.status(401).send("Invalid login credentials.");
     }
 
