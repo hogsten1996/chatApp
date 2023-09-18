@@ -30,7 +30,6 @@ const authApi = storeApi.injectEndpoints({
 })
 
 function storeToken(state, {payload}){
-    console.log(state)
     state.credentials = {token: payload.token, user: {...payload.user}};
     window.sessionStorage.setItem(
         CREDENTIALS,

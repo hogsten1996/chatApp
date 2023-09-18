@@ -13,6 +13,8 @@ function Nav() {
       <div>
         <Link to={"/"}>HOME</Link>
         <Link to={"/purchase/6"}>Purchase 6</Link>
+        <Link to={"/posts"}>Posts</Link>
+          {user.userId && <Link to={"/user"}>Profile</Link>}
           {user.userId && <button onClick={logout}>Logout</button>}
       </div>
         {user.userId && <h1>Welcome {user.username}</h1>}

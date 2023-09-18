@@ -31,7 +31,7 @@ router.post("/register", async (req, res,next)=>{
 router.post("/login", async (req, res,next)=>{
     try{
         const user = await  prisma.user.findUnique({
-            where: {username: req.body.username}
+            where: {username: req.body.username},
         })
 
         if(!user){
@@ -59,7 +59,7 @@ router.get("/me", async (req, res,next)=>{
     }
     try{
         const user = await prisma.user.findUnique({
-            where: {id: req.user.id}
+            where: {id: req.user.id},
         })
 
         res.send(user)
@@ -67,5 +67,4 @@ router.get("/me", async (req, res,next)=>{
         next(err)
     }
 })
-
 module.exports= router;

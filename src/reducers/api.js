@@ -12,18 +12,36 @@ export const storeApi = createApi({
         getProducts: builder.query({
             query: ()=>'api/products'
         }),
+
+        getPosts: builder.query({
+          query: ()=> 'api/posts'
+        }),
+
+        getUserPosts: builder.query({
+            query:(id)=>'api/posts/user/'+id
+        }),
+
         getPurchaseById : builder.query({
             query: (id)=> 'api/purchases/'+id
         }),
         getProductById :builder.query({
             query: (id)=> 'api/products/'+id
         }),
+
         deletePurchase: builder.mutation({
             query: (id)=>({
                 url:'api/purchases/'+id,
                 method:"DELETE"
             })
         }),
+
+        deletePost:builder.mutation({
+            query:(id)=>({
+                url:'api/posts/'+id,
+                method:'DELETE'
+            })
+        }),
+
         deleteProduct: builder.mutation({
             query: (id)=>({
                 url:'api/products/'+id,
@@ -37,6 +55,14 @@ export const storeApi = createApi({
                 body:body
             })
         }),
+        addPost: builder.mutation({
+            query:(body)=>({
+                url:'api/posts',
+                method:"POST",
+                body:body
+            })
+        }),
+
         addProduct: builder.mutation({
             query: (body)=>({
                 url:'api/products',
@@ -54,6 +80,7 @@ export const storeApi = createApi({
                 }
             }
         }),
+
         editProduct : builder.mutation({
             query(data){
                 const {id, ...body}=data;
@@ -70,4 +97,4 @@ export const storeApi = createApi({
 
 
 
-export const { useEditProductMutation, useAddProductMutation, useDeleteProductMutation, useGetProductsQuery, useGetProductByIdQuery, useEditPurchaseMutation, useAddPurchaseMutation, useGetPurchasesQuery, useGetPurchaseByIdQuery, useDeletePurchaseMutation} = storeApi
+export const { useGetUserPostsQuery, useAddPostMutation, useDeletePostMutation, useGetPostsQuery, useEditProductMutation, useAddProductMutation, useDeleteProductMutation, useGetProductsQuery, useGetProductByIdQuery, useEditPurchaseMutation, useAddPurchaseMutation, useGetPurchasesQuery, useGetPurchaseByIdQuery, useDeletePurchaseMutation} = storeApi
