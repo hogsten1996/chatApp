@@ -1,5 +1,6 @@
 import {useAddPostMutation, useDeletePostMutation, useGetUserPostsQuery} from "../reducers/api";
 import {useSelector} from "react-redux";
+import {useEffect, useState} from "react";
 
 
 function UserPosts() {
@@ -13,7 +14,7 @@ function UserPosts() {
     const onDelete = async (id)=>{
         await deletePost(id).then(()=>{
             console.log("delete");
-            location.reload()
+            // location.reload()
         }).catch(()=>{
             console.log("error")
         })
@@ -25,11 +26,12 @@ function UserPosts() {
             authorId: me.userId
         }).then(()=>{
             console.log("added");
-            location.reload()
+            // location.reload()
         }).catch(()=>{
             console.log("error")
         })
     }
+
 
 
     return (

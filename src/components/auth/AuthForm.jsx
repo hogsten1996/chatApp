@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLoginMutation, useRegisterMutation } from "../../reducers/auth";
+import TextInput from "../inputs/TextInput";
 
 /**
  * AuthForm allows a user to either login or register for an account.
@@ -45,23 +46,18 @@ function AuthForm() {
       <form onSubmit={attemptAuth} name={authType}>
         <label>
           Username
-          <input
-            type="text"
-            name="username"
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
+          {/*<input*/}
+          {/*  type="text"*/}
+          {/*  name="username"*/}
+          {/*  onChange={(event) => {*/}
+          {/*    setUsername(event.target.value);*/}
+          {/*  }}*/}
+          {/*/>*/}
+          <TextInput vl={username} type={"text"} chg={setUsername}/>
         </label>
         <label>
           Password
-          <input
-            type="password"
-            name="password"
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-          />
+          <TextInput vl={password} type={"password"} chg={setPassword}/>
         </label>
         <button type="submit">{authType}</button>
       </form>
