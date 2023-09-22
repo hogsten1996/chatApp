@@ -1,15 +1,15 @@
-import {useGetProductsQuery, useDeleteProductMutation, useAddProductMutation} from "../reducers/api";
+import { useDeleteProductMutation, useAddProductMutation} from "../reducers/api";
+
+import {useSelector} from "react-redux";
 
 function Products() {
-
-    const {data, isLoading}= useGetProductsQuery();
+    const products = useSelector(state=>state.data.products);
     const [deleteProduct] = useDeleteProductMutation();
     const [addProduct]= useAddProductMutation();
 
     const onDelete = async (id)=>{
         await  deleteProduct(id).then(()=>{
             console.log("delete")
-            location.reload()
         }).catch(()=>{
             console.log("error")
         })
@@ -17,11 +17,10 @@ function Products() {
 
     const onSubmit = async()=>{
         await addProduct({
-            name:"socks",
+            name:"undies",
             price: 25
         }).then(()=>{
             console.log("added")
-            location.reload()
         }).catch(()=>{
             console.log("error")
         })
@@ -30,7 +29,7 @@ function Products() {
     return (
         <>
             <button onClick={onSubmit}>Add Product</button>
-            {isLoading? <h1>Loading...</h1>: data.length===0? <h1>No Products Listed</h1>:data.map((i)=>
+            {products.length===0? <h1>No Products Listed</h1>:products.map((i)=>
                 <div key={i.id}>
                     <h1 >{i.name}</h1>
                     <h3>$ {i.price}</h3>

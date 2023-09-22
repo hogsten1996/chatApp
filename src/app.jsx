@@ -4,14 +4,24 @@ import "./App.css";
 import Products from "./pages/Products";
 import SinglePurchase from "./pages/SinglePurchase";
 import SingleProduct from "./pages/SIngleProduct";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import Posts from "./pages/Posts";
 import UserPosts from "./pages/UserPosts";
+import {useGetPostsQuery, useGetProductsQuery} from "./reducers/api";
 
 function App() {
 
     const me = useSelector((state) => state.auth.credentials.user);
+    const data = useSelector(state=>state.data);
+    const posts = useGetPostsQuery();
+    const products = useGetProductsQuery();
+
+    const [load,setLoad]=useState(true)
+
+    useEffect(()=>{
+        setLoad(posts.isLoading||products.isLoading)
+    }, [posts, products])
 
     const guestRouter = (
         <Routes>
@@ -29,7 +39,7 @@ function App() {
     );
 
     const loggedIn = me.userId;
-    return loggedIn !== null ? userRouter : guestRouter;
+    return load? <h1>Loading Data</h1>:loggedIn !== null ? userRouter : guestRouter;
 }
 
 export default App;

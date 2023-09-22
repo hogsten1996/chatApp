@@ -1,4 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import {createSlice} from "@reduxjs/toolkit";
 
 // Define a service using a base URL and expected endpoints
 export const storeApi = createApi({
@@ -94,6 +95,47 @@ export const storeApi = createApi({
 
     }),
 })
+
+const dataSlice = createSlice({
+    name:"data",
+    initialState:{
+        posts:[],
+        products:[]
+    },
+    reducers:{},
+    extraReducers: (builder)=>{
+        builder.addMatcher(storeApi.endpoints.getPosts.matchFulfilled, (state, {payload})=>{
+            return{
+                ...state,
+                posts: payload
+            }
+        })
+
+        builder.addMatcher(storeApi.endpoints.getProducts.matchFulfilled, (state, {payload})=>{
+            return{
+                ...state,
+                products: payload
+            }
+        })
+
+        builder.addMatcher(storeApi.endpoints.deleteProduct.matchFulfilled, (state, {payload})=>{
+            return {
+                ...state,
+                products: state.products.filter(i=>i.id!==payload.id)
+            }
+
+        })
+
+        builder.addMatcher(storeApi.endpoints.addProduct.matchFulfilled, (state, {payload})=>{
+            state.products.push(payload);
+            return state;
+        })
+    }
+})
+
+export default dataSlice.reducer;
+
+
 
 
 
