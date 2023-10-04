@@ -21,7 +21,6 @@ app.use("/api", require("./api"));
 app.use("/auth", require("./auth"))
 
 app.use((req, res, next) => {
-  console.log("req headers", req.headers);
   const auth = req.headers.authorization;
   const token = auth?.startsWith("Bearer ") ? auth.slice(7) : null;
 
