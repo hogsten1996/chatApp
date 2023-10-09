@@ -113,6 +113,25 @@ export const storeApi = createApi({
     }),
 })
 
+const cartSlice = createSlice({
+    name:"cart",
+    initialState:[],
+    reducers:{},
+    extraReducers:(builder)=>{
+        builder.addMatcher(storeApi.endpoints.getOrder.matchFulfilled, (state,  {payload})=>{
+            return payload.cartItems
+        })
+
+        builder.addMatcher(storeApi.endpoints.deleteCartItem.matchFulfilled, (state,  {payload})=>{
+
+        })
+
+        builder.addMatcher(storeApi.endpoints.addCartItem.matchFulfilled, (state,  {payload})=>{
+
+        })
+    }
+})
+
 const dataSlice = createSlice({
     name:"data",
     initialState:{

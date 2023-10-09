@@ -9,6 +9,8 @@ const PORT = 8081;
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+ViteExpress.config({ mode: "production" })
+
 const cors = require("cors");
 app.use(cors());
 
