@@ -25,21 +25,25 @@ model Group {
 }
 
 model Post {
-  id       Int       @id @default(autoincrement())
-  title    String
-  content  String
-  author   User      @relation(fields: [userId], references: [id])
-  group    Group     @relation(fields: [groupId], references: [id])
-  comments Comment[]
-  userId   Int
-  groupId  Int
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String
+  createdDate DateTime  @default(now())
+  updatedDate DateTime  @updatedAt
+  author      User      @relation(fields: [userId], references: [id])
+  group       Group     @relation(fields: [groupId], references: [id])
+  comments    Comment[]
+  userId      Int
+  groupId     Int
 }
 
 model Comment {
-  id     Int    @id @default(autoincrement())
-  text   String
-  author User   @relation(fields: [userId], references: [id])
-  post   Post   @relation(fields: [postId], references: [id])
-  userId Int
-  postId Int
+  id          Int      @id @default(autoincrement())
+  text        String
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+  author      User     @relation(fields: [userId], references: [id])
+  post        Post     @relation(fields: [postId], references: [id])
+  userId      Int
+  postId      Int
 }
